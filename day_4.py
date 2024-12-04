@@ -33,5 +33,21 @@ for x in range(rows):
         if x - 3 >= 0:
             upward_slice = arr[x:(x-4):-1,y]
             xmas_counter(upward_slice)
+        
+        if x + 4 <= rows and y + 4 <= cols:
+            diagonal_forward_down = [arr[x+i, y+i] for i in range(4)]
+            xmas_counter(diagonal_forward_down)
+        
+        if x + 4 <= rows and y - 3 >= 0:
+            diagonal_backward_down = [arr[x+i, y-i] for i in range(4)]
+            xmas_counter(diagonal_backward_down)
+
+        if x - 3 >= 0 and y + 4 <= cols:
+            diagonal_forward_up = [arr[x-i, y+i] for i in range(4)]
+            xmas_counter(diagonal_forward_up)
+
+        if x - 3 >= 0 and y - 3 >= 0:
+            diagonal_backward_up = [arr[x-i, y-i] for i in range(4)]
+            xmas_counter(diagonal_backward_up)
 
 print(number_xmas)
