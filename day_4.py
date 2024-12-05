@@ -116,26 +116,23 @@ print("Missed locations:", missed_locations)
 
 number_cross_mas = 0
 
-
 def mas_check(slice):
     slice_content = ''.join(slice)
     return slice_content in ['MAS', 'SAM']
 
 
-for x in range(rows):
-    for y in range(cols):
+for x in range(rows - 2): 
+    for y in range(1, cols - 1):  
 
-        # diagonal forward down
-        if x + 3 <= rows and y + 3 <= cols:
-            diagonal_forward_down = [arr[x+i, y+i] for i in range(3)]
-            check = mas_check(diagonal_forward_down)
-            if mas_check(diagonal_forward_down):
+       
+        diagonal_forward_down = [arr[x+i, y-1+i] for i in range(3)]
+ 
+        diagonal_backward_down = [arr[x+i, y+1-i] for i in range(3)]
 
-                # diagonal backward down
-                if x + 6 <= rows and y - 2 >= 0:
-                    diagonal_backward_down = [arr[x+3+i, y-i] for i in range(3)]
-                    if mas_check(diagonal_backward_down):
-                        number_cross_mas += 1
+
+        if mas_check(diagonal_forward_down) and mas_check(diagonal_backward_down):
+            number_cross_mas += 1
 
 print(number_cross_mas)
+
 
