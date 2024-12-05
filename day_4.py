@@ -14,6 +14,8 @@ with open('input_day4.txt', 'r') as file:
     data_list = [list(line) for line in file.read().splitlines()]
 arr = np.array(data_list)
 
+# part 1 
+
 rows, cols = arr.shape
 number_xmas = 0
 
@@ -109,3 +111,31 @@ print("Total XMAS count:", number_xmas)
 print("Matches by direction:", direction_counts)
 print("Total locations checked:", len(locations_checked))
 print("Missed locations:", missed_locations)
+
+# part 2
+
+number_cross_mas = 0
+
+
+def mas_check(slice):
+    slice_content = ''.join(slice)
+    return slice_content in ['MAS', 'SAM']
+
+
+for x in range(rows):
+    for y in range(cols):
+
+        # diagonal forward down
+        if x + 3 <= rows and y + 3 <= cols:
+            diagonal_forward_down = [arr[x+i, y+i] for i in range(3)]
+            check = mas_check(diagonal_forward_down)
+            if mas_check(diagonal_forward_down):
+
+                # diagonal backward down
+                if x + 6 <= rows and y - 2 >= 0:
+                    diagonal_backward_down = [arr[x+3+i, y-i] for i in range(3)]
+                    if mas_check(diagonal_backward_down):
+                        number_cross_mas += 1
+
+print(number_cross_mas)
+
