@@ -9,7 +9,7 @@ logging.basicConfig(
     filemode='w'  
 )
 
-with open('day_5_example.txt', 'r') as file:
+with open('day5_input.txt', 'r') as file:
     data = file.read().splitlines()
 
 # split data into relevant objects
@@ -58,37 +58,19 @@ for manual in manuals:
     else: 
         valid_manuals.append(manual)
         
- 
-
-        
-
-
-
-
-"""
-#need to check that source page not in all check pages, not other way around
-        check = all(pg in print_order[manual[i]] for pg in manual[i+1:])
-        if not check:
-            invalid_manuals.append(manual)
-            break
-"""
-
 
 print(f'total manuals:{len(manuals)}')
 print(f'valid manuals:{len(valid_manuals)}')
 print(f'invalid manuals:{len(invalid_manuals)}')
+# remove empty list due to blank row in source file
+del valid_manuals[0]
 
+middle_pages = []
 
-    
-        
+for v_manual in valid_manuals:
+    int_manual = list(map(int, v_manual))
+    middle_page = int_manual[len(int_manual)// 2]
+    middle_pages.append(middle_page)
 
-"""
-"""  
+print(sum(middle_pages))
 
-"""
-#TODO: iterate through data(2) using enumerate 
-#TODO: check dict v position < | > dict k position 
-#TODO: move data(2) list to valid | invalid list
-#TODO: get middle number from each valid list (enumerate modulo?)
-#TODO: sum middle numbers
-"""
