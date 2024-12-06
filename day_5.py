@@ -34,7 +34,7 @@ def check_all_pages(source_page, checklist):
                 return False
         # handle source page with empty check pages
         except TypeError:
-            logging.debug(f'empty list for source page {page}')
+            #logging.debug(f'empty list for source page {page}')
             return True
     return True
 
@@ -42,7 +42,7 @@ def check_all_pages(source_page, checklist):
 for manual in manuals:
 
     invalid_pages = False
-    logging.info(f'starting manual{manual}')
+    #logging.info(f'starting manual{manual}')
 
     for i in range(len(manual)-1):
         source_page = manual[i]
@@ -53,24 +53,70 @@ for manual in manuals:
             invalid_pages = True
             invalid_manuals.append(manual)
             break
+
     if invalid_pages:
         continue
     else: 
         valid_manuals.append(manual)
-        
 
-print(f'total manuals:{len(manuals)}')
-print(f'valid manuals:{len(valid_manuals)}')
-print(f'invalid manuals:{len(invalid_manuals)}')
+
+
 # remove empty list due to blank row in source file
 del valid_manuals[0]
 
-middle_pages = []
+def count_middle_pages(manuals):
+    middle_pages = []
+    for manual in manuals:
+        int_manual = list(map(int, manual))
+        middle_page = int_manual[len(int_manual)// 2]
+        middle_pages.append(middle_page)
 
-for v_manual in valid_manuals:
-    int_manual = list(map(int, v_manual))
-    middle_page = int_manual[len(int_manual)// 2]
-    middle_pages.append(middle_page)
+    print(sum(middle_pages))
+    
+count_middle_pages(valid_manuals)
 
-print(sum(middle_pages))
+# part 2
+
+
+
+
+def check_pages_for_order(source_page, checklist):
+
+    page_counter = 0
+
+    for page in checklist:
+        check_pages = print_order.get(page)
+        try:
+            if source_page in check_pages:
+                page_counter += 1
+        # handle source page with empty check pages
+        except TypeError:
+            logging.debug(f'empty list for source page {page}')
+            
+    return page_counter
+
+
+
+sorted_manuals = []
+
+for manual in invalid_manuals:
+    logging.info(f'unsorted manual: {manual}')
+    compare_ratings = {}
+    for pg in range(len(manual)):
+
+        source_page = manual[pg]
+        page_count = check_pages_for_order(source_page, manual)
+        compare_ratings[source_page] = page_count
+        logging.info(f'ratings copmarison so far:{compare_ratings}')
+
+    sort_pages = sorted(compare_ratings.items(), key=lambda x:x[1])
+    sorted_manual = [a for a,b in sort_pages]
+    logging.info(f'sorted manual: {sorted_manual}')
+    sorted_manuals.append(sorted_manual)
+
+count_middle_pages(sorted_manuals)
+
+
+        
+
 
