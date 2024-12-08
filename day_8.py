@@ -4,20 +4,10 @@ with open('day8_example.txt', 'r') as file:
     data = [list(line) for line in file.read().splitlines()]
 
 grid = np.array(data)
-
+print(grid)
 # define grid parameters, set vars to ref axes
 rows, cols = grid.shape
-
-# get list of antenna chars
-antennae = np.unique(grid).tolist()
-antennae.remove('.')
-print(f'\nantennae in grid: {antennae}\n')
-
-for ant in antennae:
-    # get indices of element and convert to list
-    coords = np.argwhere(grid == ant).tolist()
-    print(f'{ant} coords: {coords}')
-
+print(f'grid size: {rows} x {cols}')
 
 def antenna_distance(ant_1, ant_2):
     dist = [
@@ -25,7 +15,6 @@ def antenna_distance(ant_1, ant_2):
         max(ant_1[1],ant_2[1]) - min(ant_1[1], ant_2[1])
     ]
     return dist    
-
 
 def antinode_position(antenna_1, antenna_2, dist):
     antinode_1 = []
@@ -47,8 +36,33 @@ def antinode_position(antenna_1, antenna_2, dist):
     
     return antinode_1, antinode_2
 
+# get list of antenna chars
+antennae = np.unique(grid).tolist()
+antennae.remove('.')
+print(f'\nantennae in grid: {antennae}\n')
 
+antinode_coords =[]
 
+for ant in antennae:
+    # get indices of element and convert to list
+    coords = np.argwhere(grid == ant).tolist()
+    print(f'{ant} coords: {coords}')
+
+    for i in range(len(coords)-1):
+        antenna_1 = coords.pop(0)
+        for n in coords:
+            antenna_2 = n
+            print('ant 1: ',antenna_1,'\nant2: ',antenna_2)
+
+            dist = antenna_distance(antenna_1, antenna_2)
+            print('antenna distance: ', dist)
+            antinode_1, antinode_2 = antinode_position(antenna_1, antenna_2, dist)
+            print('antinode 1: ',antinode_1)
+            print('antinode 2: ',antinode_2)
+            antinode_coords.append(antinode_1)
+            antinode_coords.append(antinode_2)
+
+print(antinode_coords)
 
 #TODO: iterate through group cooords, return antinode coords, save to new list
 #TODO: remove out-of-bounds antinode coords.
