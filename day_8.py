@@ -1,12 +1,14 @@
 import numpy as np
 
-with open('day8_example.txt', 'r') as file:
+with open('day8_input.txt', 'r') as file:
     data = [list(line) for line in file.read().splitlines()]
 
 grid = np.array(data)
-print(grid)
+#print(grid)
 # define grid parameters, set vars to ref axes
 rows, cols = grid.shape
+rows -= 1
+cols -=1
 print(f'grid size: {rows} x {cols}')
 
 def antenna_distance(ant_1, ant_2):
@@ -46,24 +48,24 @@ antinode_coords =[]
 for ant in antennae:
     # get indices of element and convert to list
     coords = np.argwhere(grid == ant).tolist()
-    print(f'{ant} coords: {coords}')
+    #print(f'{ant} coords: {coords}')
 
     for i in range(len(coords)-1):
         antenna_1 = coords.pop(0)
         for n in coords:
             antenna_2 = n
-            print('ant 1: ',antenna_1,'\nant2: ',antenna_2)
+            #print('ant 1: ',antenna_1,'\nant2: ',antenna_2)
 
             dist = antenna_distance(antenna_1, antenna_2)
-            print('antenna distance: ', dist)
+            #print('antenna distance: ', dist)
             antinode_1, antinode_2 = antinode_position(antenna_1, antenna_2, dist)
-            print('antinode 1: ',antinode_1)
-            print('antinode 2: ',antinode_2)
-            antinode_coords.append(antinode_1)
-            antinode_coords.append(antinode_2)
+            #print('antinode 1: ',antinode_1)
+            #print('antinode 2: ',antinode_2)
 
-print(antinode_coords)
+            for a_node in antinode_1, antinode_2:
+                if (a_node[0] <= rows and a_node[0] >= 0) and (a_node[1] <= cols and a_node[1] >= 0):
+                    antinode_coords.append(a_node)
 
-#TODO: iterate through group cooords, return antinode coords, save to new list
-#TODO: remove out-of-bounds antinode coords.
-#TODO: count antinode coords (do overlapping antinodes count as 1 or > 1?)
+unique_antinodes = [list(i) for i in set([tuple(n) for n in antinode_coords])]
+print(len(unique_antinodes))
+
