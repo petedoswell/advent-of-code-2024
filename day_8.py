@@ -9,7 +9,7 @@ logging.basicConfig(
     filemode='w'  
 )
 
-with open('day8_example.txt', 'r') as file:
+with open('day8_input.txt', 'r') as file:
     data = [list(line) for line in file.read().splitlines()]
 
 grid = np.array(data)
