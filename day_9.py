@@ -14,3 +14,8 @@ expanded_disk_map = []
 for id, value in enumerate(disk_map):
     print(id, value)
 
+    for i in range(value[0]):
+        expanded_disk_map.append(id)
+    for i in range(value[1]):
+        expanded_disk_map.append('.')
+print(expanded_disk_map)
