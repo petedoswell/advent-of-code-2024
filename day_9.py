@@ -1,5 +1,5 @@
 import logging
-from itertools import zip_longest
+
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s',
